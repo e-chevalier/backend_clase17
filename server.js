@@ -97,7 +97,7 @@ const numCPUs = os.cpus().length
 const argv = yargs(hideBin(process.argv))
     .default({
         modo: 'FORK',
-        puerto: 8080
+        puerto: process.env.PORT
     })
     .alias({
         m: 'modo',
@@ -105,7 +105,7 @@ const argv = yargs(hideBin(process.argv))
     })
     .argv
 
-const PORT = argv.puerto
+const PORT = argv.puerto 
 
 logger.info(`Valor de entorno NODE_ENV: ${process.env.NODE_ENV}`);
 
