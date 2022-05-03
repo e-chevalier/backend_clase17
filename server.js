@@ -8,11 +8,11 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import { serverPassport } from './config/passport.js'
 import cluster from 'cluster'
-import fs from 'fs'
-import https from 'https'
+//import fs from 'fs'
+//import https from 'https'
 import logger from './utils/winston/winston_config.js';
 import compression from 'compression'
-//import { Server as HttpServer } from 'http'
+import { Server as HttpServer } from 'http'
 import os from 'os'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -23,10 +23,10 @@ import { createAdapter, setupPrimary } from "@socket.io/cluster-adapter";
 
 const app = express()
 // SERVER HTTPS
-const credentials = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-};
+// const credentials = {
+//     key: fs.readFileSync('key.pem'),
+//     cert: fs.readFileSync('cert.pem')
+// };
 
 
 // Middlewares
@@ -53,9 +53,9 @@ app.set('views', './views'); // especifica el directorio de vistas
 app.set('view engine', '.hbs'); // registra el motor de plantillas
 
 
-const httpsServer = https.createServer(credentials, app);
+//const httpsServer = https.createServer(credentials, app);
 
-// const httpServer = new HttpServer(app)
+const httpServer = new HttpServer(app)
 
 // CONFIG SESION WITH MONGO STORE
 const advanceOptions = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -77,7 +77,7 @@ app.use(session({
     rolling: true,
     cookie: {
         httpOnly: false,
-        secure: true,
+        secure: false,
         maxAge: 600 * 1000,
         sameSite: 'none'
     }
@@ -116,7 +116,7 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
         logger.log(`Master Cluster PID ${process.pid} is running.`)
 
         // setup sticky sessions
-        setupMaster(httpsServer, {
+        setupMaster(httpServer, {
             loadBalancingMethod: "least-connection",
         });
 
@@ -135,9 +135,9 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
 
     } else {
 
-        let io = serverSocketsEvents(httpsServer)
+        let io = serverSocketsEvents(httpServer)
 
-        const server = httpsServer.listen(PORT, (err) => {
+        const server = httpServer.listen(PORT, (err) => {
             if (err) {
                 logger.error("Error while starting server")
             } else {
@@ -163,9 +163,9 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
     
 } else {
 
-    serverSocketsEvents(httpsServer)
+    serverSocketsEvents(httpServer)
 
-    const server = httpsServer.listen(PORT, 'localhost', (err) => {
+    const server = httpServer.listen(PORT, 'localhost', (err) => {
         if (err) {
             logger.error("Error while starting server")
         } else {
