@@ -147,7 +147,7 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
                     `
                     ------------------------------------------------------------
                     WORKER ${server.address().port}  Process Pid: ${process.pid}
-                    Open link to https://localhost:${server.address().port}     
+                    Open link to http://localhost:${server.address().port}     
                     -------------------------------------------------------------
                     `
                 )
@@ -167,7 +167,7 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
 
     serverSocketsEvents(httpServer)
 
-    const server = httpServer.listen(PORT, 'localhost', (err) => {
+    const server = httpServer.listen(PORT, (err) => {
         if (err) {
             logger.error("Error while starting server")
         } else {
@@ -175,7 +175,7 @@ if (argv.modo.toUpperCase() == 'CLUSTER') {
                 `
                 ------------------------------------------------------------
                 Servidor http escuchando en el puerto ${server.address().port}
-                Open link to https://localhost:${server.address().port}      
+                Open link to http://localhost:${server.address().port}      
                 -------------------------------------------------------------
                 `
             )
