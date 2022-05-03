@@ -8,7 +8,8 @@ let db = {
     host: process.env.MYSQLDB_HOST,
     user: process.env.MYSQLDB_USER,
     password: process.env.MYSQLDB_PASSWORD,
-    database: process.env.MYSQLDB_NAME
+    database: process.env.MYSQLDB_NAME,
+    ssl:true
 }
 
 export { config, db }
