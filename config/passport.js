@@ -7,6 +7,15 @@ import * as User from '../models/users.js'
 import bCrypt from 'bcrypt'
 import logger from '../utils/winston/winston_config.js'
 
+
+const createHash = (password) => {
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
+const isValidPassword = (user, password) => {
+    return bCrypt.compareSync(password, user.password);
+}
+
 export const serverPassport = (app) => {
 
     // CONFIG PASSPORT FACEBOOK
@@ -127,13 +136,6 @@ export const serverPassport = (app) => {
 
 }
 
-const createHash = (password) => {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}
 
-
-const isValidPassword = (user, password) => {
-    return bCrypt.compareSync(password, user.password);
-}
 
 

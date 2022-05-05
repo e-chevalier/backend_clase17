@@ -1,9 +1,0 @@
-node_modules/*
-logs/*
-conf/*
-*.log
-*.gif
-*.jpg
-*.html
-*.json
-

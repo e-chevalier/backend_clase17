@@ -1,6 +1,6 @@
 //import winston from 'winston'
 import { createLogger, format, transports } from 'winston'
-const { combine, timestamp, prettyPrint } = format;
+const { combine, timestamp, prettyPrint, colorize } = format;
 const LEVEL = Symbol.for('level');
 
 /**
@@ -19,7 +19,8 @@ const loggerDevelopment = {
     transports: [
         new transports.Console({ 
             format: combine(
-                prettyPrint()
+                prettyPrint(),
+                colorize({all: true})
             ),
             level: 'info' 
         })
@@ -34,7 +35,8 @@ const loggerProduction = {
             format: combine(
                 filterOnly('warn'),
                 timestamp(),
-                prettyPrint()
+                prettyPrint(),
+                colorize({all: true})
             ),
             level: 'warn'
         }),
@@ -43,7 +45,8 @@ const loggerProduction = {
             format: combine(
                 filterOnly('error'),
                 timestamp(),
-                prettyPrint()
+                prettyPrint(),
+                colorize({all: true})
             ),
             level: 'error'
         })

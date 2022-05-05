@@ -1,5 +1,9 @@
+import logger from "../winston/winston_config.js"
 
 const auth = (req, res, next) => {
+
+    // logger.warn(req.session)
+    // logger.warn(req.cookies)
 
     if( req.isAuthenticated()) {
         return next()

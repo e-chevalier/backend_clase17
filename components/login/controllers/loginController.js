@@ -23,6 +23,9 @@ class Login {
         try {
             const { user } = await loginService.postLogin(req)
 
+            // logger.warn(req.session)
+            // logger.warn(req.cookies)
+
             res.redirect('/api/viewOne')
             
         } catch (error) {

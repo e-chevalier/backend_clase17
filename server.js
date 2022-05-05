@@ -8,8 +8,6 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import { serverPassport } from './config/passport.js'
 import cluster from 'cluster'
-//import fs from 'fs'
-//import https from 'https'
 import logger from './utils/winston/winston_config.js';
 import compression from 'compression'
 import { Server as HttpServer } from 'http'
@@ -22,12 +20,6 @@ import { createAdapter, setupPrimary } from "@socket.io/cluster-adapter";
 
 
 const app = express()
-// SERVER HTTPS
-// const credentials = {
-//     key: fs.readFileSync('key.pem'),
-//     cert: fs.readFileSync('cert.pem')
-// };
-
 
 // Middlewares
 app.use(compression())
@@ -53,8 +45,6 @@ app.set('views', './views'); // especifica el directorio de vistas
 app.set('view engine', '.hbs'); // registra el motor de plantillas
 
 
-//const httpsServer = https.createServer(credentials, app);
-
 const httpServer = new HttpServer(app)
 
 // CONFIG SESION WITH MONGO STORE
@@ -76,10 +66,8 @@ app.use(session({
     resave: false,
     rolling: true,
     cookie: {
-        httpOnly: false,
-        secure: false,
         maxAge: 600 * 1000,
-        sameSite: 'none'
+        sameSite: true
     }
 }))
 
@@ -106,8 +94,6 @@ const argv = yargs(hideBin(process.argv))
     .argv
 
 const PORT = process.env.PORT || argv.puerto
-
-logger.info(PORT)
 
 logger.info(`Valor de entorno NODE_ENV: ${process.env.NODE_ENV}`);
 
